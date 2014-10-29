@@ -14,7 +14,7 @@ class ErrorStatusView extends HTMLElement
     @appendChild @errorIcon
     @appendChild @errorCountLabel
 
-    @addEventListener 'dblclick', =>
+    @addEventListener 'click', =>
         atom.openDevTools()
         atom.executeJavaScriptInDevTools('InspectorFrontendAPI.showConsole()')
         console.error(error) for error in @errors
