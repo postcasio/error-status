@@ -24,9 +24,10 @@ class ErrorStatusView extends HTMLElement
     @errorSubscription = atom.on 'uncaught-error', (message, url, line, column, error) =>
         @errors.push error
 
-        message = new ErrorStatusMessageView()
-        message.initialize(error)
-        message.attach()
+        if atom.config.get 'error-status.showErrorDetail'
+            message = new ErrorStatusMessageView()
+            message.initialize(error)
+            message.attach()
 
         @updateErrorCount()
 

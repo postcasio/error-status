@@ -4,6 +4,12 @@ module.exports =
   errorStatusView: null
   previousOnError: null
 
+  config:
+    showErrorDetail:
+      type: 'boolean'
+      default: true
+      description: 'Show errors in a panel at the bottom of the workspace.'
+
   activate: ->
     @previousOnError = window.onerror
 
