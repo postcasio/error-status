@@ -15,7 +15,9 @@ error-status {
 }
 
 error-status-message.tool-panel {
-	background-color: darken(@background-color-error, 25%);
+	background-color: fadeout(@background-color-error, 75%);
+	color: @text-color;
+
 	.icon {
 		cursor: pointer;
 
