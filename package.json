@@ -1,7 +1,7 @@
 {
   "name": "error-status",
   "main": "./lib/error-status",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Show error information in the status bar instead of popping up the developer tools.",
   "repository": "https://github.com/postcasio/error-status",
   "license": "MIT",
