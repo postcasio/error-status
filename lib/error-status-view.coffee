@@ -17,7 +17,9 @@ class ErrorStatusView extends HTMLElement
     @addEventListener 'click', =>
         atom.openDevTools()
         atom.executeJavaScriptInDevTools('InspectorFrontendAPI.showConsole()')
-        console.error(error) for error in @errors
+        for error in @errors
+            console.error error.stack ? error.toString()
+
         @errors = []
         @updateErrorCount()
 

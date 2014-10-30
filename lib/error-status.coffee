@@ -9,6 +9,10 @@ module.exports =
       type: 'boolean'
       default: true
       description: 'Show errors in a panel at the bottom of the workspace.'
+    closeOnReport:
+      type: 'boolean'
+      default: true
+      description: 'Close the error panel automatically when you report.'
 
   activate: ->
     @previousOnError = window.onerror

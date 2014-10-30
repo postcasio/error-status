@@ -19,12 +19,25 @@ class ErrorStatusMessageView extends HTMLElement
 		@removeButton.addEventListener 'click', =>
 			@destroy()
 
+
 		@expanded = document.createElement 'div'
 		@expanded.classList.add 'inset-panel', 'padded'
 		@expanded.textContent = error.stack ? 'No stacktrace available.'
 
 		@appendChild @expandButton
 		@appendChild @removeButton
+
+		if atom.packages.isPackageLoaded('bug-report')
+			@reportButton = document.createElement 'button'
+			@reportButton.textContent = 'Report'
+			@reportButton.classList.add 'btn', 'btn-sm', 'btn-error', 'pull-right'
+			@reportButton.addEventListener 'click', (e) =>
+				atom.workspaceView.trigger 'bug-report:open', error: @error
+				if atom.config.get 'error-status.closeOnReport'
+					@destroy()
+
+			@appendChild @reportButton
+
 		@appendChild @expanded
 
 	attach: ->
