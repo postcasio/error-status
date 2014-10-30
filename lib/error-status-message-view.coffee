@@ -12,13 +12,18 @@ class ErrorStatusMessageView extends HTMLElement
 			else
 				@classList.add 'expanded'
 				@expandButton.textContent = '(less...)'
+
 		@expandButton.textContent = '(more...)'
 
-		@removeButton = document.createElement 'span'
-		@removeButton.classList.add 'pull-right', 'icon', 'icon-x'
+		@removeButton = @createIconButton 'x'
+		@removeButton.classList.add 'pull-right'
 		@removeButton.addEventListener 'click', =>
 			@destroy()
 
+		@clipboardButton = @createIconButton 'clippy'
+		@clipboardButton.classList.add 'pull-right'
+		@clipboardButton.addEventListener 'click', =>
+			atom.clipboard.write @error.stack ? @error.toString()
 
 		@expanded = document.createElement 'div'
 		@expanded.classList.add 'inset-panel', 'padded'
@@ -26,11 +31,12 @@ class ErrorStatusMessageView extends HTMLElement
 
 		@appendChild @expandButton
 		@appendChild @removeButton
+		@appendChild @clipboardButton
 
 		if atom.packages.isPackageLoaded('bug-report')
 			@reportButton = document.createElement 'button'
 			@reportButton.textContent = 'Report'
-			@reportButton.classList.add 'btn', 'btn-sm', 'btn-error', 'pull-right'
+			@reportButton.classList.add 'btn', 'btn-sm', 'pull-right'
 			@reportButton.addEventListener 'click', (e) =>
 				atom.workspaceView.trigger 'bug-report:open', error: @error
 				if atom.config.get 'error-status.closeOnReport'
@@ -39,6 +45,15 @@ class ErrorStatusMessageView extends HTMLElement
 			@appendChild @reportButton
 
 		@appendChild @expanded
+
+	createIconButton: (iconName) ->
+		icon = document.createElement 'span'
+		icon.classList.add 'icon', 'icon-' + iconName
+		button = document.createElement 'button'
+		button.classList.add 'btn', 'btn-sm'
+		button.appendChild icon
+
+		button
 
 	attach: ->
 		atom.workspaceView.prependToBottom this

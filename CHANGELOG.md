@@ -1,3 +1,6 @@
+## 0.1.6
+* Added a copy to clipboard button
+
 ## 0.1.5
 * Added integration with the [bug-report](https://github.com/lee-dohm/bug-report) package. If installed, error messages will gain a "Report" button that opens a new bug report.
 * Adjusted console output
