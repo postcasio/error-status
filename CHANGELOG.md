@@ -1,3 +1,7 @@
+## 0.1.4
+* Added integration with the [bug-report](https://github.com/lee-dohm/bug-report) package. If installed, error messages will gain a "Report" button that opens a new bug report.
+* Adjusted console output
+
 ## 0.1.3
 * Adjust panel background colour to work better on both light and dark themes
 
