@@ -1,3 +1,6 @@
+## 0.1.7
+* Style adjustments
+
 ## 0.1.6
 * Added a copy to clipboard button
 

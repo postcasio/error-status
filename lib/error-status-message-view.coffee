@@ -16,12 +16,10 @@ class ErrorStatusMessageView extends HTMLElement
 		@expandButton.textContent = '(more...)'
 
 		@removeButton = @createIconButton 'x'
-		@removeButton.classList.add 'pull-right'
 		@removeButton.addEventListener 'click', =>
 			@destroy()
 
 		@clipboardButton = @createIconButton 'clippy'
-		@clipboardButton.classList.add 'pull-right'
 		@clipboardButton.addEventListener 'click', =>
 			atom.clipboard.write @error.stack ? @error.toString()
 
@@ -29,20 +27,25 @@ class ErrorStatusMessageView extends HTMLElement
 		@expanded.classList.add 'inset-panel', 'padded'
 		@expanded.textContent = error.stack ? 'No stacktrace available.'
 
+		btnGroup = document.createElement 'div'
+		btnGroup.classList.add 'btn-group', 'pull-right'
+
 		@appendChild @expandButton
-		@appendChild @removeButton
-		@appendChild @clipboardButton
 
 		if atom.packages.isPackageLoaded('bug-report')
-			@reportButton = document.createElement 'button'
-			@reportButton.textContent = 'Report'
-			@reportButton.classList.add 'btn', 'btn-sm', 'pull-right'
+			@reportButton = @createIconButton 'issue-opened'
+			@reportButton.appendChild document.createTextNode ' Report'
 			@reportButton.addEventListener 'click', (e) =>
 				atom.workspaceView.trigger 'bug-report:open', error: @error
 				if atom.config.get 'error-status.closeOnReport'
 					@destroy()
 
-			@appendChild @reportButton
+			btnGroup.appendChild @reportButton
+
+		btnGroup.appendChild @clipboardButton
+		btnGroup.appendChild @removeButton
+
+		@appendChild btnGroup
 
 		@appendChild @expanded
 
