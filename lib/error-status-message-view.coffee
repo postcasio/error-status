@@ -36,7 +36,9 @@ class ErrorStatusMessageView extends HTMLElement
 			@reportButton = @createIconButton 'issue-opened'
 			@reportButton.appendChild document.createTextNode ' Report'
 			@reportButton.addEventListener 'click', (e) =>
-				atom.workspaceView.trigger 'bug-report:open', error: @error
+				info = "## Error\n\n```\n#{@error.stack ? @error.toString()}\n```"
+				atom.workspaceView.trigger 'bug-report:open', info
+
 				if atom.config.get 'error-status.closeOnReport'
 					@destroy()
 

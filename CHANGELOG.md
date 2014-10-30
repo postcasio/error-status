@@ -1,3 +1,6 @@
+## 0.1.8
+* bug-report integration now sends markdown formatted error information.
+
 ## 0.1.7
 * Style adjustments
 
