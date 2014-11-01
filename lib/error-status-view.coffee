@@ -19,31 +19,35 @@ class ErrorStatusView extends HTMLElement
         atom.openDevTools()
         atom.executeJavaScriptInDevTools('InspectorFrontendAPI.showConsole()')
         for error in @errors
-            console.error error.stack ? error.toString()
+            console.error (error?.stack) ? (error + '')
 
         @errors = []
         @updateErrorCount()
 
     @errorSubscription = atom.on 'uncaught-error', (message, url, line, column, error) =>
-        @errors.push error
+        try
+            @errors.push error
 
-        if atom.config.get 'error-status.showErrorDetail'
-            message = new ErrorStatusMessageView()
-            @messages.unshift message
-            message.initialize(error)
-            message.attach()
+            if atom.config.get 'error-status.showErrorDetail'
+                message = new ErrorStatusMessageView()
+                @messages.unshift message
+                message.initialize(error)
+                asd()
+                message.attach()
 
-        @updateErrorCount()
-        
+            @updateErrorCount()
+        catch e
+            console.error (error?.stack) ? (error + '')
+
     process.nextTick =>
       @escapeSubscription = atom.workspaceView.on 'keydown', (e) =>
           if e.which is 27 and @messages.length
               for message, msgIdx in @messages
-                  if document.contains message 
-                      message.destroy(); break 
+                  if document.contains message
+                      message.destroy(); break
               @messages.splice 0, msgIdx+1
               false
-    
+
     @updateErrorCount()
 
   updateErrorCount: ->
