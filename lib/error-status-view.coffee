@@ -32,7 +32,6 @@ class ErrorStatusView extends HTMLElement
                 message = new ErrorStatusMessageView()
                 @messages.unshift message
                 message.initialize(error)
-                asd()
                 message.attach()
 
             @updateErrorCount()
