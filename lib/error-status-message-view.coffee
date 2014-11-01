@@ -1,19 +1,10 @@
 class ErrorStatusMessageView extends HTMLElement
 	initialize: (@error) ->
+		errorMessage = @error + ''
+		errorDetail = @error?.stack
+
 		@classList.add 'tool-panel', 'panel-bottom', 'padded'
-		@textContent = @error.toString()
-
-		@expandButton = document.createElement 'span'
-		@expandButton.classList.add 'error-expand'
-		@expandButton.addEventListener 'click', =>
-			if @classList.contains 'expanded'
-				@classList.remove 'expanded'
-				@expandButton.textContent = '(more...)'
-			else
-				@classList.add 'expanded'
-				@expandButton.textContent = '(less...)'
-
-		@expandButton.textContent = '(more...)'
+		@textContent = errorMessage
 
 		@removeButton = @createIconButton 'x'
 		@removeButton.addEventListener 'click', =>
@@ -21,22 +12,16 @@ class ErrorStatusMessageView extends HTMLElement
 
 		@clipboardButton = @createIconButton 'clippy'
 		@clipboardButton.addEventListener 'click', =>
-			atom.clipboard.write @error.stack ? @error.toString()
-
-		@expanded = document.createElement 'div'
-		@expanded.classList.add 'inset-panel', 'padded'
-		@expanded.textContent = error.stack ? 'No stacktrace available.'
+			atom.clipboard.write errorDetail
 
 		btnGroup = document.createElement 'div'
 		btnGroup.classList.add 'btn-group', 'pull-right'
-
-		@appendChild @expandButton
 
 		if atom.packages.isPackageLoaded('bug-report')
 			@reportButton = @createIconButton 'issue-opened'
 			@reportButton.appendChild document.createTextNode ' Report'
 			@reportButton.addEventListener 'click', (e) =>
-				info = "## Error\n\n```\n#{@error.stack ? @error.toString()}\n```"
+				info = "## Error\n\n```\n#{errorDetail ? errorMessage}\n```"
 				atom.workspaceView.trigger 'bug-report:open', info
 
 				if atom.config.get 'error-status.closeOnReport'
@@ -49,7 +34,25 @@ class ErrorStatusMessageView extends HTMLElement
 
 		@appendChild btnGroup
 
-		@appendChild @expanded
+		if errorDetail
+			@expandButton = document.createElement 'span'
+			@expandButton.classList.add 'error-expand'
+			@expandButton.addEventListener 'click', =>
+				if @classList.contains 'expanded'
+					@classList.remove 'expanded'
+					@expandButton.textContent = '(more...)'
+				else
+					@classList.add 'expanded'
+					@expandButton.textContent = '(less...)'
+
+			@expandButton.textContent = '(more...)'
+
+			@expanded = document.createElement 'div'
+			@expanded.classList.add 'inset-panel', 'padded'
+			@expanded.textContent = errorDetail
+
+			@appendChild @expandButton
+			@appendChild @expanded
 
 	createIconButton: (iconName) ->
 		icon = document.createElement 'span'

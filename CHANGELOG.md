@@ -1,3 +1,7 @@
+## 0.1.9
+* Press escape to close the error panel.
+* The 'more' link no longer shows if there is no more information.
+
 ## 0.1.8
 * bug-report integration now sends markdown formatted error information.
 
