@@ -20,6 +20,7 @@ module.exports =
     window.onerror = ->
       atom.lastUncaughtError = Array::slice.call(arguments)
       atom.emit 'uncaught-error', arguments...
+      atom.emitter.emit 'did-throw-error', arguments...
 
     @errorStatusView = new ErrorStatusView
     atom.packages.once 'activated', =>
