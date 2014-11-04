@@ -24,32 +24,32 @@ class ErrorStatusView extends HTMLElement
 			@errors = []
 			@updateErrorCount()
 
-		@errorSubscription = atom.on 'uncaught-error', (errSubMsg, url, line, column, error) =>
+		@errorSubscription = atom.on 'uncaught-error', (errorMessage, url, line, column, error) =>
 			try
-					@errors.push error
+				@errors.push error
 
-					if atom.config.get 'error-status.showErrorDetail'
-							bugReportInfo =
-									title: errSubMsg
-									time: Date.now()
-							message = new ErrorStatusMessageView()
-							@messages.unshift message
-							message.initialize(error, bugReportInfo)
-							message.attach()
+				if atom.config.get 'error-status.showErrorDetail'
+					bugReportInfo =
+							title: errorMessage
+							time: Date.now()
+					message = new ErrorStatusMessageView()
+					@messages.unshift message
+					message.initialize(error, bugReportInfo)
+					message.attach()
 
-					@updateErrorCount()
+				@updateErrorCount()
 			catch e
-					console.error (error?.stack) ? (error + '')
+				console.error (error?.stack) ? (error + '')
 
-		process.nextTick =>
-			@escapeSubscription = atom.workspaceView.on 'keydown', (e) =>
-				if e.which is 27 and @messages.length
-					for message, msgIdx in @messages
-						if document.contains message
-							message.destroy()
-							break
-					@messages.splice 0, msgIdx + 1
-					false
+
+		@escapeSubscription = atom.workspaceView.on 'keydown', (e) =>
+			if e.which is 27 and @messages.length
+				for message, msgIdx in @messages
+					if document.contains message
+						message.destroy()
+						break
+				@messages.splice 0, msgIdx + 1
+
 
 		@updateErrorCount()
 

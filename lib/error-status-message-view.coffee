@@ -11,8 +11,8 @@ class ErrorStatusMessageView extends HTMLElement
 			@destroy()
 
 		@clipboardButton = @createIconButton 'clippy'
-		@clipboardButton.addEventListener 'click', =>
-			atom.clipboard.write errorDetail
+		@clipboardButton.addEventListener 'click', ->
+			atom.clipboard.write errorDetail ? errorMessage
 
 		btnGroup = document.createElement 'div'
 		btnGroup.classList.add 'btn-group', 'pull-right'

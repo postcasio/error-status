@@ -22,10 +22,13 @@ module.exports =
 			atom.emit 'uncaught-error', arguments...
 			atom.emitter.emit 'did-throw-error', arguments...
 
-		@errorStatusView = new ErrorStatusView
 		atom.packages.once 'activated', =>
-			@errorStatusView.initialize()
-			atom.workspaceView.statusBar?.appendRight(@errorStatusView)
+			@attach()
+
+	attach: ->
+		@errorStatusView = new ErrorStatusView
+		@errorStatusView.initialize()
+		atom.workspaceView.statusBar?.appendRight(@errorStatusView)
 
 	deactivate: ->
 		@errorStatusView.destroy()
