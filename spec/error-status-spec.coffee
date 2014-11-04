@@ -60,5 +60,8 @@ describe "error-status", ->
 			expect(workspaceElement.querySelector('error-status-message span.error-expand')).not.toExist()
 		it "closes the last error when escape is pressed", ->
 			throwError(new Error)
+			throwError(new Error)
+			workspaceElement.dispatchEvent(keymapManager.keydownEvent('escape', keyCode: 27))
+			expect(workspaceElement.querySelectorAll('error-status-message').length).toBe(1)
 			workspaceElement.dispatchEvent(keymapManager.keydownEvent('escape', keyCode: 27))
 			expect(workspaceElement.querySelector('error-status-message')).not.toExist()
