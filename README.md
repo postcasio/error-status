@@ -1,5 +1,3 @@
 # error-status
 
-Show error information in the status bar instead of popping up the developer tools.
-
-You can double click the error count to open the developer tools and log all caught exceptions.
+Show error messages in a panel instead of opening the developer tools. Integrates with bug-report so you can easily send error information to package developers.
