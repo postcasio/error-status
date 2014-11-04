@@ -3,6 +3,7 @@
 describe "error-status", ->
 	workspaceElement = null
 	errorStatusElement = null
+	keymapManager = null
 
 	throwError = (error) -> window.onerror 'Error message', 'error-status-spec.coffee', 1, 1, error
 
@@ -18,6 +19,7 @@ describe "error-status", ->
 			atom.packages.getActivePackage('error-status').mainModule.attach()
 			errorStatusElement = workspaceElement.querySelector('error-status')
 			atom.config.set 'error-status.showErrorDetail', true
+			keymapManager = require('atom-keymap')
 
 	describe "error-status", ->
 		it "attaches the error view when error detail is enabled", ->
@@ -56,3 +58,7 @@ describe "error-status", ->
 		it "does not show the more link when an error has no detail", ->
 			throwError(null)
 			expect(workspaceElement.querySelector('error-status-message span.error-expand')).not.toExist()
+		it "closes the last error when escape is pressed", ->
+			throwError(new Error)
+			workspaceElement.dispatchEvent(keymapManager.keydownEvent('escape', keyCode: 27))
+			expect(workspaceElement.querySelector('error-status-message')).not.toExist()
