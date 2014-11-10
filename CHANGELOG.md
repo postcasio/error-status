@@ -1,3 +1,7 @@
+## 0.2.0
+* bug-report integration finalised.
+* Now has specs!
+
 ## 0.1.11
 * Send more information about the error to bug-report
 
