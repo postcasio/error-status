@@ -55,10 +55,7 @@ class ErrorStatusView extends HTMLElement
 
 	updateErrorCount: ->
 		@errorCountLabel.textContent = @errors.length
-		if @errors.length > 0
-			@classList.add 'has-errors'
-		else
-			@classList.remove 'has-errors'
+		@classList.toggle 'has-errors', @errors.length > 0
 
 	# Tear down any state and detach
 	destroy: ->

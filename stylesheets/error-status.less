@@ -1,16 +1,12 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
-// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
-// for a full listing of what's available.
 @import "ui-variables";
 
 error-status {
 	display: none;
 	margin-left: 10px;
+	color: @text-color-error;
 
 	&.has-errors {
 		display: inline-block;
-		color: @text-color-error;
 	}
 }
 
@@ -18,18 +14,6 @@ error-status-message.tool-panel {
 	background-color: fadeout(@background-color-error, 75%);
 	color: @text-color;
 	line-height: 21px;
-
-	.icon {
-		cursor: pointer;
-
-		&::before {
-			margin-right: 0;
-		}
-
-		&:hover {
-			color: @text-color-highlight;
-		}
-	}
 
 	.error-expand {
 		margin-left: 10px;
@@ -41,9 +25,15 @@ error-status-message.tool-panel {
 		margin-top: 10px;
 		display: none;
 		white-space: pre;
+		overflow: auto;
+		max-height: 150px;
 	}
 
 	&.expanded .inset-panel {
 		display: block;
+	}
+
+	.btn .icon::before {
+		margin: 0;
 	}
 }
