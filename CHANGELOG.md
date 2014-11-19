@@ -1,3 +1,6 @@
+## 0.3.0
+* Support HTML5 Notification API.
+
 ## 0.2.0
 * bug-report integration finalised.
 * Now has specs!

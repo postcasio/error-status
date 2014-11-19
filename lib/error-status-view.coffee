@@ -1,4 +1,5 @@
 ErrorStatusMessageView = require './error-status-message-view'
+{notify} = require './notifications'
 
 class ErrorStatusView extends HTMLElement
 	initialize: ->
@@ -28,7 +29,7 @@ class ErrorStatusView extends HTMLElement
 			try
 				@errors.push error
 
-				if atom.config.get 'error-status.showErrorDetail'
+				createMessageView = =>
 					bugReportInfo =
 							title: errorMessage
 							time: Date.now()
@@ -37,8 +38,19 @@ class ErrorStatusView extends HTMLElement
 					message.initialize(error, bugReportInfo)
 					message.attach()
 
+				if atom.config.get 'error-status.showErrorDetail'
+					if atom.config.get 'error-status.useNotifications'
+						opts = {}
+						if error?.stack
+							opts.body = error.stack
+						notify error + '', opts,
+							onclick: createMessageView
+					else
+						createMessageView()
+
 				@updateErrorCount()
 			catch e
+				console.error e
 				console.error (error?.stack) ? (error + '')
 
 

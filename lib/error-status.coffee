@@ -13,6 +13,10 @@ module.exports =
 			type: 'boolean'
 			default: true
 			description: 'Close the error panel automatically when you report.'
+		useNotifications:
+			type: 'boolean'
+			default: false
+			description: 'Use Notification API. Clicking notifications will open the error panel.'
 
 	activate: ->
 		@previousOnError = window.onerror
