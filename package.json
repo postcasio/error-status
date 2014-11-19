@@ -1,7 +1,7 @@
 {
   "name": "error-status",
   "main": "./lib/error-status",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Show error messages in a panel instead of opening the developer tools. Integrates with bug-report so you can easily send error information to package developers.",
   "repository": "https://github.com/postcasio/error-status",
   "license": "MIT",
