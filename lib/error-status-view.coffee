@@ -80,8 +80,8 @@ class ErrorStatusView extends HTMLElement
 
 	# Tear down any state and detach
 	destroy: ->
-		@errorSubscription?.off()
-		@escapeSubscription?.off()
+		@errorSubscription?.dispose()
+		@escapeSubscription?.dispose()
 		@remove()
 
 module.exports = document.registerElement 'error-status', prototype: ErrorStatusView.prototype
