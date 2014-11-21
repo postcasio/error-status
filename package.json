@@ -1,7 +1,7 @@
 {
   "name": "error-status",
   "main": "./lib/error-status",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Better error handling for Atom.",
   "repository": "https://github.com/postcasio/error-status",
   "license": "MIT",
