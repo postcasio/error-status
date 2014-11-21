@@ -16,6 +16,7 @@ class ErrorStatusView extends HTMLElement
 		@appendChild @errorIcon
 		@appendChild @errorCountLabel
 
+		# Log our error history when the error count is clicked.
 		@addEventListener 'click', =>
 			atom.openDevTools()
 			atom.executeJavaScriptInDevTools('InspectorFrontendAPI.showConsole()')
@@ -25,35 +26,43 @@ class ErrorStatusView extends HTMLElement
 			@errors = []
 			@updateErrorCount()
 
-		@errorSubscription = atom.on 'uncaught-error', (errorMessage, url, line, column, error) =>
+		# Listen for errors from Atom.
+		@errorSubscription = atom.onWillThrowError ({message, originalError, preventDefault}) =>
 			try
-				@errors.push error
+				@errors.push originalError
 
 				createMessageView = =>
 					bugReportInfo =
-							title: errorMessage
+							title: message
 							time: Date.now()
-					message = new ErrorStatusMessageView()
-					@messages.unshift message
-					message.initialize(error, bugReportInfo)
-					message.attach()
+					messageView = new ErrorStatusMessageView()
+					@messages.unshift messageView
+					messageView.initialize(originalError, bugReportInfo)
+					messageView.attach()
 
 				if atom.config.get 'error-status.showErrorDetail'
 					if atom.config.get 'error-status.useNotifications'
+						# If using notifications, we only create the message view when the notification is clicked.
 						opts = {}
-						if error?.stack
-							opts.body = error.stack
-						notify error + '', opts,
+						if originalError?.stack
+							opts.body = originalError.stack
+						notify message, opts,
 							onclick: createMessageView
 					else
+						# Create the message view now.
 						createMessageView()
 
 				@updateErrorCount()
-			catch e
-				console.error e
-				console.error (error?.stack) ? (error + '')
+
+				# We handled the error, so prevent Atom handling it too.
+				preventDefault()
+
+			catch error
+				# Something went horribly wrong.
+				# Do nothing, and Atom will handle the error.
 
 
+		# Remove the latest error when escape is pressed.
 		@escapeSubscription = atom.workspaceView.on 'keydown', (e) =>
 			if e.which is 27 and @messages.length
 				for message, msgIdx in @messages
@@ -62,9 +71,9 @@ class ErrorStatusView extends HTMLElement
 						break
 				@messages.splice 0, msgIdx + 1
 
-
 		@updateErrorCount()
 
+	# Update the status bar with the new error count.
 	updateErrorCount: ->
 		@errorCountLabel.textContent = @errors.length
 		@classList.toggle 'has-errors', @errors.length > 0

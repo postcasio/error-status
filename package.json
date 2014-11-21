@@ -2,11 +2,11 @@
   "name": "error-status",
   "main": "./lib/error-status",
   "version": "0.3.0",
-  "description": "Show error messages in a panel instead of opening the developer tools. Integrates with bug-report so you can easily send error information to package developers.",
+  "description": "Better error handling for Atom.",
   "repository": "https://github.com/postcasio/error-status",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.140.0"
+    "atom": ">=0.150.0"
   },
   "dependencies": {},
   "devDependencies": {

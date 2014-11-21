@@ -17,6 +17,8 @@ class ErrorStatusMessageView extends HTMLElement
 		btnGroup = document.createElement 'div'
 		btnGroup.classList.add 'btn-group', 'pull-right'
 
+		# If bug-report is installed, show a "report" button that sends error
+		# information to bug-report.
 		if atom.packages.isPackageLoaded('bug-report')
 			@reportButton = @createIconButton 'issue-opened'
 			@reportButton.appendChild document.createTextNode ' Report'
@@ -35,6 +37,8 @@ class ErrorStatusMessageView extends HTMLElement
 
 		@appendChild btnGroup
 
+		# If more information (a stack trace) is available, show the more button
+		# and add the hidden inset panel.
 		if errorDetail
 			@expandButton = document.createElement 'span'
 			@expandButton.classList.add 'error-expand'
@@ -55,6 +59,7 @@ class ErrorStatusMessageView extends HTMLElement
 			@appendChild @expandButton
 			@appendChild @expanded
 
+	# Helper to create a small button with an icon.
 	createIconButton: (iconName) ->
 		icon = document.createElement 'span'
 		icon.classList.add 'icon', 'icon-' + iconName
