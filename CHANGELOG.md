@@ -1,3 +1,6 @@
+## 0.3.3
+* Allow copying of selected text.
+
 ## 0.3.2
 * Allow selection of text in the expanded error detail.
 
