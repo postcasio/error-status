@@ -1,3 +1,6 @@
+## 0.3.2
+* Allow selection of text in the expanded error detail.
+
 ## 0.3.1
 * Use `Atom::onWillThrowError` to handle errors instead of ugly `window.onerror` hack.
 

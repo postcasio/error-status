@@ -53,6 +53,7 @@ class ErrorStatusMessageView extends HTMLElement
 			@expandButton.textContent = '(more...)'
 
 			@expanded = document.createElement 'div'
+			@expanded.setAttribute 'tabindex', -1
 			@expanded.classList.add 'inset-panel', 'padded'
 			@expanded.textContent = errorDetail
 
