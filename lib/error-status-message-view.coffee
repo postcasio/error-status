@@ -54,7 +54,8 @@ class ErrorStatusMessageView extends HTMLElement
 
 			@expanded = document.createElement 'div'
 			@expanded.setAttribute 'tabindex', -1
-			@expanded.classList.add 'inset-panel', 'padded'
+
+			@expanded.classList.add 'inset-panel', 'padded', 'native-key-bindings'
 			@expanded.textContent = errorDetail
 
 			@appendChild @expandButton
